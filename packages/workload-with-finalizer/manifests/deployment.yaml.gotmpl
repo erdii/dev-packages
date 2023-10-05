@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{.package.metadata.name}}-v1"
+  labels:
+    app: workload-with-finalizer
+    instance: "{{.package.metadata.name}}"
+  annotations:
+    package-operator.run/phase: deploy
+  finalizers:
+  - dev.erdii.net/custom-finalizer
+spec:
+  selector:
+    matchLabels:
+      app: workload-with-finalizer
+      instance: "{{.package.metadata.name}}"
+  template:
+    metadata:
+      labels:
+        app: workload-with-finalizer
+        instance: "{{.package.metadata.name}}"
+    spec:
+      terminationGracePeriodSeconds: 1
+      containers:
+      - name: sleep
+        image: docker.io/alpine:latest
+        command:
+        - sleep
+        - infinity

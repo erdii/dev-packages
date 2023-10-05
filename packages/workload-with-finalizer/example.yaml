@@ -1,0 +1,6 @@
+apiVersion: package-operator.run/v1alpha1
+kind: Package
+metadata:
+  name: my-workload-with-finalizer
+spec:
+  image: quay.io/erdii-test/workload-with-finalizer:v0.0.1
