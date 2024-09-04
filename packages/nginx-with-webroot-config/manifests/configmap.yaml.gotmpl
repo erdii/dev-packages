@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{.package.metadata.name}}-webroot"
+  labels:
+    app: nginx-with-webroot-config
+    instance: "{{.package.metadata.name}}"
+  annotations:
+    package-operator.run/phase: deploy
+data:
+  index.html: |-
+    {{.config.data}}

@@ -1,0 +1,11 @@
+apiVersion: package-operator.run/v1alpha1
+kind: Package
+metadata:
+  name: my-nginx-with-webroot
+spec:
+  image: quay.io/erdii-test/nginx-with-webroot:v0.0.1
+  config:
+    files:
+    - name: index.html
+      data: |-
+        <h1>Hi there</h1>
