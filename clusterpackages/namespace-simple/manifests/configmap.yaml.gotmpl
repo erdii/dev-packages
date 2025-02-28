@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: namespace-simple
+  namespace: namespace-simple
+  labels:
+    app: namespace-simple
+    instance: "{{.package.metadata.name}}"
+  annotations:
+    package-operator.run/phase: data
+data:
+  apple: pie
+  banana: bread

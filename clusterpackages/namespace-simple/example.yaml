@@ -1,0 +1,6 @@
+apiVersion: package-operator.run/v1alpha1
+kind: ClusterPackage
+metadata:
+  name: namespace-simple
+spec:
+  image: quay.io/erdii-test/namespace-simple:v0.0.1
