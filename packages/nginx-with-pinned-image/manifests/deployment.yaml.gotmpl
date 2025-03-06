@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{.package.metadata.name}}-v1"
+  labels:
+    app: nginx-with-pinned-image
+    instance: "{{.package.metadata.name}}"
+  annotations:
+    package-operator.run/phase: deploy
+spec:
+  selector:
+    matchLabels:
+      app: nginx-with-pinned-image
+      instance: "{{.package.metadata.name}}"
+  template:
+    metadata:
+      labels:
+        app: nginx-with-pinned-image
+        instance: "{{.package.metadata.name}}"
+    spec:
+      terminationGracePeriodSeconds: 1
+      containers:
+      - name: nginx
+        image: "{{.images.webserver}}"

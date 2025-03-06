@@ -1,0 +1,24 @@
+apiVersion: manifests.package-operator.run/v1alpha1
+kind: PackageManifest
+metadata:
+  name: nginx-with-pinned-image
+spec:
+  scopes:
+  - Namespaced
+  phases:
+  - name: deploy
+  images:
+  - name: webserver
+    image: docker.io/nginx:1.27.4-alpine
+  availabilityProbes:
+  - probes:
+    - condition:
+        type: Available
+        status: "True"
+    - fieldsEqual:
+        fieldA: .status.updatedReplicas
+        fieldB: .status.replicas
+    selector:
+      kind:
+        group: apps
+        kind: Deployment

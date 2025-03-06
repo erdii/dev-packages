@@ -1,0 +1,6 @@
+apiVersion: package-operator.run/v1alpha1
+kind: Package
+metadata:
+  name: my-nginx-with-pinned-image
+spec:
+  image: quay.io/erdii-test/nginx-with-pinned-image:v0.0.1
