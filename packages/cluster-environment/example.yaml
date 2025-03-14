@@ -3,4 +3,4 @@ kind: Package
 metadata:
   name: cluster-environment
 spec:
-  image: quay.io/erdii-test/cluster-environment:v0.0.1
+  image: quay.io/erdii-test/cluster-environment:v0.0.2
