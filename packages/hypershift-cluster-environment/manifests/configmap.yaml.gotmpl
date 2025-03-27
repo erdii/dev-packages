@@ -1,0 +1,118 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{.package.metadata.name}}"
+  labels:
+    app: hypershift-cluster-environment-example
+    instance: "{{.package.metadata.name}}"
+  annotations:
+    package-operator.run/phase: data
+data:
+  metrics-forwarder.deployment.yaml: |-
+    apiVersion: apps/v1
+    kind: Deployment
+    metadata:
+      name: metrics-forwarder
+      labels:
+        app: metrics-forwarder
+      annotations:
+        package-operator.run/phase: deploy
+    spec:
+      selector:
+        matchLabels:
+          app: metrics-forwarder
+      replicas: 2
+      template:
+        metadata:
+          labels:
+            app: metrics-forwarder
+        spec:
+          nodeSelector:
+            {{- $nodeSelector := split "=" (get .environment.hyperShift.hostedCluster.metadata.annotations "hypershift.openshift.io/request-serving-node-additional-selector") }}
+            "{{ $nodeSelector._0 }}": "{{ $nodeSelector._1 }}"
+          affinity:
+            nodeAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                nodeSelectorTerms:
+                  - matchExpressions:
+                      - key: hypershift.openshift.io/cluster
+                        operator: In
+                        values:
+                          - '{{ .environment.hyperShift.hostedCluster.hostedClusterNamespace }}'
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - weight: 100
+                  preference:
+                    matchExpressions:
+                      - key: hypershift.openshift.io/cluster
+                        operator: In
+                        values:
+                          - '{{ .environment.hyperShift.hostedCluster.hostedClusterNamespace }}'
+                      - key: hypershift.openshift.io/request-serving-component
+                        operator: In
+                        values:
+                          - 'true'
+                - weight: 90
+                  preference:
+                    matchExpressions:
+                      - key: hypershift.openshift.io/control-plane
+                        operator: In
+                        values:
+                          - 'true'
+                - weight: 80
+                  preference:
+                    matchExpressions:
+                      - key: node-role.kubernetes.io/worker
+                        operator: Exists
+            podAffinity:
+              preferredDuringSchedulingIgnoredDuringExecution:
+                - podAffinityTerm:
+                    labelSelector:
+                      matchLabels:
+                        hypershift.openshift.io/hosted-control-plane: '{{ .environment.hyperShift.hostedCluster.hostedClusterNamespace }}'
+                    topologyKey: kubernetes.io/hostname
+                  weight: 100
+            podAntiAffinity:
+              requiredDuringSchedulingIgnoredDuringExecution:
+                - labelSelector:
+                    matchLabels:
+                      app: metrics-forwarder
+                  topologyKey: topology.kubernetes.io/zone
+          automountServiceAccountToken: false
+          containers:
+            - name: nginx
+              image: registry.access.redhat.com/ubi8/nginx-120
+              command:
+                - nginx
+                - '-g'
+                - daemon off;
+              ports:
+                - containerPort: 8001
+              volumeMounts:
+                - name: nginx-config
+                  mountPath: /etc/nginx/nginx.conf
+                  subPath: nginx.conf
+                - mountPath: /etc/nginx/cert
+                  name: nginx-cert
+          tolerations:
+            - effect: NoSchedule
+              key: hypershift.openshift.io/control-plane
+              operator: Equal
+              value: 'true'
+            - effect: NoSchedule
+              key: hypershift.openshift.io/cluster
+              operator: Equal
+              value: '{{ .environment.hyperShift.hostedCluster.hostedClusterNamespace }}'
+            - effect: NoSchedule
+              key: hypershift.openshift.io/request-serving-component
+              operator: Equal
+              value: 'true'
+          volumes:
+            - name: nginx-config
+              configMap:
+                defaultMode: 420
+                name: metrics-forwarder-config
+            - name: nginx-cert
+              secret:
+                defaultMode: 420
+                secretName: metrics-forwarder-secret

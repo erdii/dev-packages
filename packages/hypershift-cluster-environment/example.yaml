@@ -1,0 +1,7 @@
+apiVersion: package-operator.run/v1alpha1
+kind: Package
+metadata:
+  name: hypershift-cluster-environment
+  namespace: ocm-int-2hpbguhpgeu3hq47t990h8bg7veahrl8-joshteststage
+spec:
+  image: quay.io/erdii-test/hypershift-cluster-environment:v0.0.1
