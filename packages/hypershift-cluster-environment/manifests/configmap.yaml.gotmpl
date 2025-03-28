@@ -28,9 +28,6 @@ data:
           labels:
             app: metrics-forwarder
         spec:
-          nodeSelector:
-            {{- $nodeSelector := split "=" (get .environment.hyperShift.hostedCluster.metadata.annotations "hypershift.openshift.io/request-serving-node-additional-selector") }}
-            "{{ $nodeSelector._0 }}": "{{ $nodeSelector._1 }}"
           affinity:
             nodeAffinity:
               requiredDuringSchedulingIgnoredDuringExecution:
@@ -40,6 +37,13 @@ data:
                         operator: In
                         values:
                           - '{{ .environment.hyperShift.hostedCluster.hostedClusterNamespace }}'
+                      {{- if (hasKey .environment.hyperShift.hostedCluster.metadata.annotations "hypershift.openshift.io/request-serving-node-additional-selector") }}
+                      {{- $nodeSelector := split "=" (get .environment.hyperShift.hostedCluster.metadata.annotations "hypershift.openshift.io/request-serving-node-additional-selector") }}
+                      - key: "{{ $nodeSelector._0 }}"
+                        operator: In
+                        values:
+                        - "{{ $nodeSelector._1 }}"
+                      {{ end }}
               preferredDuringSchedulingIgnoredDuringExecution:
                 - weight: 100
                   preference:
