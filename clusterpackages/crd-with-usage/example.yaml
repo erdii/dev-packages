@@ -1,0 +1,6 @@
+apiVersion: package-operator.run/v1alpha1
+kind: ClusterPackage
+metadata:
+  name: crd-with-usage
+spec:
+  image: quay.io/erdii-test/crd-with-usage:v0.0.1

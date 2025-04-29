@@ -1,0 +1,6 @@
+apiVersion: k8s.erdii.net/v1
+kind: Foo
+metadata:
+  name: a-foo
+  annotations:
+    package-operator.run/phase: usage
