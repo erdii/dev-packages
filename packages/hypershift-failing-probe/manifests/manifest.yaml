@@ -1,0 +1,24 @@
+apiVersion: manifests.package-operator.run/v1alpha1
+kind: PackageManifest
+metadata:
+  name: hypershift-failing-probe
+spec:
+  scopes:
+  - Namespaced
+  phases:
+  - name: faulty-data
+    class: hosted-cluster
+  - name: never-rolls-out
+    class: hosted-cluster
+  availabilityProbes:
+  - probes:
+    - fieldsEqual:
+        fieldA: .data["banana"]
+        fieldB: .data["apple"]
+    selector:
+      kind:
+        group: ""
+        kind: ConfigMap
+      selector:
+        matchLabels:
+          this-is: broken

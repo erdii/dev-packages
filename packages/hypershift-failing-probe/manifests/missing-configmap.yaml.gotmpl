@@ -1,0 +1,15 @@
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: "{{.package.metadata.name}}-missing"
+  labels:
+    app: hypershift-failing-probe-example
+    instance: "{{.package.metadata.name}}"
+    this-is: missing
+  annotations:
+    package-operator.run/phase: never-rolls-out
+data:
+  banana: bread
+  apple: pie
+  this: configmap never rolls out

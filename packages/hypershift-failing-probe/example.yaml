@@ -1,0 +1,7 @@
+apiVersion: package-operator.run/v1alpha1
+kind: Package
+metadata:
+  name: hypershift-failing-probe
+  namespace: default-pko-hs-hc
+spec:
+  image: quay.io/erdii-test/hypershift-failing-probe:v0.0.2
