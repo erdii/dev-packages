@@ -1,0 +1,6 @@
+apiVersion: package-operator.run/v1alpha1
+kind: Package
+metadata:
+  name: my-hypershift-nginx
+spec:
+  image: quay.io/erdii-test/hypershift-nginx:v0.0.2

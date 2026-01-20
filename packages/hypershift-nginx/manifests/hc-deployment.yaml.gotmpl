@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: "{{.package.metadata.name}}-nginx-on-hc"
+  labels:
+    app: hypershift-nginx-on-hc
+    instance: "{{.package.metadata.name}}"
+  annotations:
+    package-operator.run/phase: deploy-to-hosted-cluster
+spec:
+  selector:
+    matchLabels:
+      app: hypershift-nginx-on-hc
+      instance: "{{.package.metadata.name}}"
+  template:
+    metadata:
+      labels:
+        app: hypershift-nginx-on-hc
+        instance: "{{.package.metadata.name}}"
+    spec:
+      terminationGracePeriodSeconds: 1
+      containers:
+      - name: nginx
+        image: "{{.images.webserver}}"

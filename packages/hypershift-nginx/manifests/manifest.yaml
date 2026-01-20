@@ -1,0 +1,26 @@
+apiVersion: manifests.package-operator.run/v1alpha1
+kind: PackageManifest
+metadata:
+  name: hypershift-nginx
+spec:
+  scopes:
+  - Namespaced
+  phases:
+  - name: deploy-to-management-cluster
+  - name: deploy-to-hosted-cluster
+    class: hosted-cluster
+  images:
+  - name: webserver
+    image: docker.io/nginx:1.29.4-alpine
+  availabilityProbes:
+  - probes:
+    - condition:
+        type: Available
+        status: "True"
+    - fieldsEqual:
+        fieldA: .status.updatedReplicas
+        fieldB: .status.replicas
+    selector:
+      kind:
+        group: apps
+        kind: Deployment

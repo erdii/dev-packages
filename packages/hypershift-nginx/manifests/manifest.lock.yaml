@@ -1,0 +1,9 @@
+apiVersion: manifests.package-operator.run/v1alpha1
+kind: PackageManifestLock
+metadata:
+  creationTimestamp: "2026-01-20T10:59:32Z"
+spec:
+  images:
+  - digest: sha256:b0f7830b6bfaa1258f45d94c240ab668ced1b3651c8a222aefe6683447c7bf55
+    image: docker.io/nginx:1.29.4-alpine
+    name: webserver
