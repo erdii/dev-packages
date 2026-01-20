@@ -9,7 +9,7 @@ spec:
   - name: deploy
   images:
   - name: webserver
-    image: docker.io/nginx:1.27.4-alpine
+    image: docker.io/nginx:1.29.4-alpine
   availabilityProbes:
   - probes:
     - condition:
