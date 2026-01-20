@@ -9,4 +9,4 @@ fi
 TAG="$(yq -r '.repo + ":" + .tag' "$1/meta.yaml")"
 
 echo "Building and pushing package image with tag '$TAG'."
-kubectl package build "$1/manifests" --tag "$TAG" --push
+kubectl package build --zap-log-level debug "$1/manifests" --tag "$TAG" --push
