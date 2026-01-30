@@ -1,0 +1,6 @@
+apiVersion: package-operator.run/v1alpha1
+kind: Package
+metadata:
+  name: my-hypershift-mc-workload
+spec:
+  image: quay.io/erdii-test/hypershift-mc-workload:v0.0.1

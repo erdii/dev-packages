@@ -1,0 +1,9 @@
+apiVersion: manifests.package-operator.run/v1alpha1
+kind: PackageManifestLock
+metadata:
+  creationTimestamp: "2026-01-30T10:41:50Z"
+spec:
+  images:
+  - digest: sha256:bb08f2300cb8d12a7eb91dddf28ea63692b3ec99e7f0fa71a1b300f2756ea829
+    image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+    name: ubi
