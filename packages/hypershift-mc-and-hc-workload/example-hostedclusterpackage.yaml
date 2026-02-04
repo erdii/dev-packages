@@ -1,0 +1,12 @@
+apiVersion: package-operator.run/v1alpha1
+kind: HostedClusterPackage
+metadata:
+  name: my-hypershift-mc-and-hc-workload
+spec:
+  template:
+    metadata:
+      labels:
+        this-is: a-split-demo
+    spec:
+      image: quay.io/erdii-test/hypershift-mc-and-hc-workload:v0.0.1
+
