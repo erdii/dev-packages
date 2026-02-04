@@ -1,0 +1,26 @@
+apiVersion: manifests.package-operator.run/v1alpha1
+kind: PackageManifest
+metadata:
+  name: hypershift-mc-workload
+spec:
+  scopes:
+  - Namespaced
+  phases:
+  - name: deploy-to-management-cluster
+  - name: deploy-to-hosted-cluster
+    class: hosted-cluster
+  images:
+  - name: ubi
+    image: registry.access.redhat.com/ubi9/ubi-minimal:latest
+  availabilityProbes:
+  - probes:
+    - condition:
+        type: Available
+        status: "True"
+    - fieldsEqual:
+        fieldA: .status.updatedReplicas
+        fieldB: .status.replicas
+    selector:
+      kind:
+        group: apps
+        kind: Deployment

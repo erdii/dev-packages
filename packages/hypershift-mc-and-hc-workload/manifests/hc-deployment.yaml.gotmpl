@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: default
+  name: "{{.package.metadata.name}}-hc-workload-{{.package.metadata.namespace}}"
+  labels:
+    app: hypershift-hc-workload
+    instance: "{{.package.metadata.name}}"
+  annotations:
+    package-operator.run/phase: deploy-to-hosted-cluster
+spec:
+  selector:
+    matchLabels:
+      app: hypershift-hc-workload
+      instance: "{{.package.metadata.name}}-{{.package.metadata.namespace}}"
+  template:
+    metadata:
+      labels:
+        app: hypershift-hc-workload
+        instance: "{{.package.metadata.name}}-{{.package.metadata.namespace}}"
+    spec:
+      terminationGracePeriodSeconds: 1
+      containers:
+      - name: workload
+        image: "{{.images.ubi}}"
+        command:
+        - /bin/bash
+        - -c
+        - --
+        args: ["date; sleep infinity"]
