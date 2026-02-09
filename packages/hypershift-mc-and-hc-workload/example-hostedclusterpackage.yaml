@@ -8,5 +8,4 @@ spec:
       labels:
         this-is: a-split-demo
     spec:
-      image: quay.io/erdii-test/hypershift-mc-and-hc-workload:v0.0.1
-
+      image: quay.io/erdii-test/hypershift-mc-and-hc-workload:v0.0.2

@@ -3,4 +3,4 @@ kind: Package
 metadata:
   name: my-hypershift-mc-and-hc-workload
 spec:
-  image: quay.io/erdii-test/hypershift-mc-and-hc-workload:v0.0.1
+  image: quay.io/erdii-test/hypershift-mc-and-hc-workload:v0.0.2

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: default
+  name: "{{.package.metadata.name}}-hc-workload-{{.package.metadata.namespace}}"
+  labels:
+    app: hypershift-hc-workload
+    instance: "{{.package.metadata.name}}"
+  annotations:
+    package-operator.run/phase: deploy-to-hosted-cluster
+data:
+  foo: bar
