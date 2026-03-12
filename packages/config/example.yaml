@@ -1,0 +1,10 @@
+apiVersion: package-operator.run/v1alpha1
+kind: Package
+metadata:
+  name: my-config
+spec:
+  image: quay.io/erdii-test/config:v0.0.1
+  config:
+    example:
+      foo: bar
+      hans: wurst

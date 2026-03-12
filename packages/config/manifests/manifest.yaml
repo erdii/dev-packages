@@ -1,0 +1,16 @@
+apiVersion: manifests.package-operator.run/v1alpha1
+kind: PackageManifest
+metadata:
+  name: config
+spec:
+  scopes:
+  - Namespaced
+  phases:
+  - name: configmap
+  config:
+    openAPIV3Schema:
+      type: object
+      properties:
+        example:
+          type: object
+          additionalProperties: true
